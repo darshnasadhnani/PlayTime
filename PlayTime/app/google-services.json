@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "124679318474",
+    "firebase_url": "https://playtime-294d2.firebaseio.com",
+    "project_id": "playtime-294d2",
+    "storage_bucket": "playtime-294d2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:124679318474:android:cf0335058e39b367247d33",
+        "android_client_info": {
+          "package_name": "com.example.playtime"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "124679318474-gbmukk46i9ehasm5128vkff0tb3trn14.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.playtime",
+            "certificate_hash": "3f72dbc6633517baf8f811e60cb8e22aa54c269c"
+          }
+        },
+        {
+          "client_id": "124679318474-i8sfm0lmavi85d7pggkn4ho1juuj97l6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAUZ82Sr-lDe6OBjs2u5twD9vJj_ReQK60"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "124679318474-i8sfm0lmavi85d7pggkn4ho1juuj97l6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
