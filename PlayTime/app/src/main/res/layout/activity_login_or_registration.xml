@@ -29,22 +29,12 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Join our community of people"
+        android:text="Join our community of people from all around the world!"
         android:textColor="#1F766C"
+        android:textAlignment="center"
+        android:layout_gravity="center_horizontal"
         android:textSize="22dp"
         android:layout_marginTop="170dp"
-        android:layout_marginLeft="60dp"
-        android:textStyle="italic"
-        android:fontFamily="@font/opensansregular"
-        android:background="@null"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="all around the world!"
-        android:textColor="#1F766C"
-        android:textSize="22dp"
-        android:layout_marginTop="205dp"
-        android:layout_marginLeft="95dp"
         android:textStyle="italic"
         android:fontFamily="@font/opensansregular"
         android:background="@null"/>
@@ -57,14 +47,14 @@
         android:fontFamily="sans-serif"
         android:textStyle="bold"
         android:id="@+id/login"
-        android:layout_marginTop="300dp"
+        android:layout_marginTop="280dp"
         android:layout_marginLeft="83dp"
         android:textAllCaps="false"
         android:background="@drawable/rounded_button"/>
     <Button
         android:layout_width="262dp"
         android:layout_height="64dp"
-        android:layout_marginTop="380dp"
+        android:layout_marginTop="360dp"
         android:layout_marginLeft="83dp"
         android:text="Register"
         android:textAllCaps="false"

@@ -31,16 +31,17 @@
         android:textColor="#1F766C"
         android:textSize="22dp"
         android:layout_marginTop="170dp"
-        android:layout_marginLeft="110dp"
+        android:textAlignment="center"
+        android:layout_gravity="center_horizontal"
         android:textStyle="italic"
         android:fontFamily="@font/opensansregular"
         android:background="@null"/>
     <ImageView
-        android:layout_width="18dp"
-        android:layout_height="18dp"
-        android:src="@drawable/emailicon"
-        android:layout_marginTop="223dp"
-        android:layout_marginLeft="85dp"/>
+    android:layout_width="18dp"
+    android:layout_height="18dp"
+    android:src="@drawable/emailicon"
+    android:layout_marginTop="223dp"
+    android:layout_marginLeft="85dp"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
