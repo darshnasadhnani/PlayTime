@@ -14,7 +14,7 @@
         android:layout_marginTop="125dp"
         android:src="@drawable/sportsicon" />
 
-    <EditText
+    <TextView
 
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -26,7 +26,7 @@
         android:textStyle="bold"
         android:fontFamily="@font/opensansbold"
         android:background="@null"/>
-    <EditText
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Join our community of people"
@@ -37,7 +37,7 @@
         android:textStyle="italic"
         android:fontFamily="@font/opensansregular"
         android:background="@null"/>
-    <EditText
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="all around the world!"
@@ -60,7 +60,7 @@
         android:layout_marginTop="300dp"
         android:layout_marginLeft="83dp"
         android:textAllCaps="false"
-        android:background="@drawable/rounded_edittext"/>
+        android:background="@drawable/rounded_button"/>
     <Button
         android:layout_width="262dp"
         android:layout_height="64dp"
@@ -73,6 +73,6 @@
         android:fontFamily="sans-serif"
         android:textStyle="bold"
         android:id="@+id/register"
-        android:background="@drawable/rounded_edittext"/>
+        android:background="@drawable/rounded_button"/>
 
 </FrameLayout>

@@ -1,25 +1,101 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".RegistrationActivity"
     android:orientation="vertical">
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="email"
-        android:id="@+id/email"/>
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="password"
-        android:id="@+id/password"/>
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Login"
-        android:id="@+id/login"/>
+    <ImageView
+        android:layout_width="41dp"
+        android:layout_height="41dp"
+        android:layout_marginLeft="55dp"
+        android:layout_marginTop="125dp"
+        android:src="@drawable/sportsicon" />
 
-</LinearLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="PlayTime"
+        android:textColor="#1F766C"
+        android:textSize="50dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginLeft="100dp"
+        android:textStyle="bold"
+        android:fontFamily="@font/opensansbold"
+        android:background="@null"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sign in to continue "
+        android:textColor="#1F766C"
+        android:textSize="22dp"
+        android:layout_marginTop="170dp"
+        android:layout_marginLeft="110dp"
+        android:textStyle="italic"
+        android:fontFamily="@font/opensansregular"
+        android:background="@null"/>
+    <ImageView
+        android:layout_width="18dp"
+        android:layout_height="18dp"
+        android:src="@drawable/emailicon"
+        android:layout_marginTop="223dp"
+        android:layout_marginLeft="85dp"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="EMAIL"
+        android:textColor="#1F766C"
+        android:layout_marginLeft="105dp"
+        android:layout_marginTop="220dp"
+        android:fontFamily="@font/opensansbold"/>
+    <EditText
+        android:layout_width="262dp"
+        android:layout_height="40dp"
+        android:hint="johhny991@example.com"
+        android:id="@+id/email"
+        android:layout_marginTop="250dp"
+        android:layout_marginLeft="75dp"
+        android:background="@drawable/rounded_edittext"
+        android:padding="10dp"
+        android:textSize="13dp"/>
+    <ImageView
+        android:layout_width="18dp"
+        android:layout_height="18dp"
+        android:src="@drawable/passwordicon"
+        android:layout_marginTop="303dp"
+        android:layout_marginLeft="85dp"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="PASSWORD"
+        android:textColor="#1F766C"
+        android:layout_marginLeft="105dp"
+        android:layout_marginTop="300dp"
+        android:fontFamily="@font/opensansbold"/>
+    <EditText
+        android:layout_width="262dp"
+        android:layout_height="40dp"
+        android:hint="******"
+        android:id="@+id/password"
+        android:layout_marginTop="330dp"
+        android:layout_marginLeft="75dp"
+        android:background="@drawable/rounded_edittext"
+        android:padding="10dp"
+        android:textSize="13dp"
+        android:inputType="textPassword"/>
+    <Button
+        android:layout_width="262dp"
+        android:layout_height="64dp"
+        android:text="Login"
+        android:textColor="#FFFFFF"
+        android:textSize="20dp"
+        android:fontFamily="sans-serif"
+        android:textStyle="bold"
+        android:id="@+id/login"
+        android:layout_marginTop="390dp"
+        android:layout_marginLeft="83dp"
+        android:textAllCaps="false"
+        android:background="@drawable/rounded_button"/>
+
+</FrameLayout>
