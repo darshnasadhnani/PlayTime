@@ -1,9 +1,5 @@
 package com.example.playtime.Matches;
 
-/**
- * Created by manel on 10/31/2017.
- */
-
 public class MatchesObject {
     private String userId;
     private String name;
