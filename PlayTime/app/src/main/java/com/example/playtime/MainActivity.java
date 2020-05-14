@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         currentUId = mAuth.getCurrentUser().getUid();
 
-        checkUserSex();
+        checkUserType();
 
         rowItems = new ArrayList<cards>();
 
@@ -125,26 +125,28 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private String userSex;
-    private String oppositeUserSex;
-    public void checkUserSex(){
+    private String userType;
+    private String oppositeUserType;
+    public void checkUserType(){
         final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         DatabaseReference userDb = usersDb.child(user.getUid());
         userDb.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()){
-                    if (dataSnapshot.child("sex").getValue() != null){
-                        userSex = dataSnapshot.child("sex").getValue().toString();
-                        switch (userSex){
-                            case "Male":
-                                oppositeUserSex = "Female";
+                    if (dataSnapshot.child("UserType").getValue() != null){
+                        userType = dataSnapshot.child("UserType").getValue().toString();
+                        switch (userType){
+                            case "Player":
+                                oppositeUserType = "Coach";
+                                getOppositeTypeUsers();
+                                getPlayers();
                                 break;
-                            case "Female":
-                                oppositeUserSex = "Male";
+                            case "Coach":
+                                oppositeUserType = "Player";
+                                getOppositeTypeUsers();
                                 break;
                         }
-                        getOppositeSexUsers();
                     }
                 }
             }
@@ -155,12 +157,12 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public void getOppositeSexUsers(){
+    public void getOppositeTypeUsers(){
         usersDb.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                if (dataSnapshot.child("sex").getValue() != null) {
-                    if (dataSnapshot.exists() && !dataSnapshot.child("connections").child("nope").hasChild(currentUId) && !dataSnapshot.child("connections").child("yeps").hasChild(currentUId) && dataSnapshot.child("sex").getValue().toString().equals(oppositeUserSex)) {
+                if (dataSnapshot.child("UserType").getValue() != null) {
+                    if (dataSnapshot.exists() && !dataSnapshot.child("connections").child("nope").hasChild(currentUId) && !dataSnapshot.child("connections").child("yeps").hasChild(currentUId) && dataSnapshot.child("UserType").getValue().toString().equals(oppositeUserType)) {
                         String profileImageUrl = "default";
                         if (!dataSnapshot.child("profileImageUrl").getValue().equals("default")) {
                             profileImageUrl = dataSnapshot.child("profileImageUrl").getValue().toString();
@@ -186,7 +188,38 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+    public void getPlayers(){
+        usersDb.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                if (dataSnapshot.child("UserType").getValue() != null) {
+                    if (dataSnapshot.exists() && !dataSnapshot.child("connections").child("nope").hasChild(currentUId) && !dataSnapshot.child("connections").child("yeps").hasChild(currentUId) && dataSnapshot.child("UserType").getValue().toString().equals("Player")) {
+                        String profileImageUrl = "default";
+                        if (!dataSnapshot.child("profileImageUrl").getValue().equals("default")) {
+                            profileImageUrl = dataSnapshot.child("profileImageUrl").getValue().toString();
+                        }
+                        cards item = new cards(dataSnapshot.getKey(), dataSnapshot.child("name").getValue().toString(), profileImageUrl);
+                        if(item.getUserId()!=currentUId)
+                            rowItems.add(item);
+                        arrayAdapter.notifyDataSetChanged();
+                    }
+                }
+            }
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+            }
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+            }
 
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
+    }
 
     public void logoutUser(View view) {
         mAuth.signOut();

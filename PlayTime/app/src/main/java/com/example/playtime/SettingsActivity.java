@@ -47,7 +47,7 @@ public class SettingsActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private DatabaseReference mUserDatabase;
 
-    private String userId, name, phone, profileImageUrl, userSex;
+    private String userId, name, phone, profileImageUrl, userType;
 
     private Uri resultUri;
 
@@ -109,8 +109,8 @@ public class SettingsActivity extends AppCompatActivity {
                         phone = map.get("phone").toString();
                         mPhoneField.setText(phone);
                     }
-                    if(map.get("sex")!=null){
-                        userSex = map.get("sex").toString();
+                    if(map.get("UserType")!=null){
+                        userType = map.get("UserType").toString();
                     }
                     Glide.with(mProfileImage.getContext()).clear(mProfileImage);
                     if(map.get("profileImageUrl")!=null){
