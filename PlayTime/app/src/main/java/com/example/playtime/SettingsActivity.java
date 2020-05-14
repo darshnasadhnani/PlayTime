@@ -39,62 +39,68 @@ import java.util.Map;
 public class SettingsActivity extends AppCompatActivity {
 
     private EditText mNameField, mPhoneField;
-    private Button mBack,mConfirm;
+
+    private Button mBack, mConfirm;
+
     private ImageView mProfileImage;
 
     private FirebaseAuth mAuth;
-    private DatabaseReference mCustomerDatabase;
-    private String userType;
+    private DatabaseReference mUserDatabase;
 
+    private String userId, name, phone, profileImageUrl, userSex;
 
-    private String userId, name, phone, profileImageUrl;
     private Uri resultUri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
+
         mNameField = (EditText) findViewById(R.id.name);
         mPhoneField = (EditText) findViewById(R.id.phone);
+
         mProfileImage = (ImageView) findViewById(R.id.profileImage);
+
         mBack = (Button) findViewById(R.id.back);
         mConfirm = (Button) findViewById(R.id.confirm);
-        userType = getIntent().getExtras().getString("userType");
 
         mAuth = FirebaseAuth.getInstance();
-        userId= mAuth.getCurrentUser().getUid();
-        mCustomerDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child(userType).child(userId);
+        userId = mAuth.getCurrentUser().getUid();
+
+        mUserDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child(userId);
+
         getUserInfo();
+
         mProfileImage.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
                 Intent intent = new Intent(Intent.ACTION_PICK);
-                intent.setType("image/'");
-                startActivityForResult(intent,1);
-
+                intent.setType("image/*");
+                startActivityForResult(intent, 1);
             }
         });
         mConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
                 saveUserInformation();
             }
         });
         mBack.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
                 finish();
                 return;
             }
         });
     }
 
-    private void getUserInfo(){
-        mCustomerDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+
+    private void getUserInfo() {
+        mUserDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+            public void onDataChange(DataSnapshot dataSnapshot) {
                 if(dataSnapshot.exists() && dataSnapshot.getChildrenCount()>0){
-                    Map<String, Object> map = (Map<String,Object>) dataSnapshot.getValue();
+                    Map<String, Object> map = (Map<String, Object>) dataSnapshot.getValue();
                     if(map.get("name")!=null){
                         name = map.get("name").toString();
                         mNameField.setText(name);
@@ -103,19 +109,30 @@ public class SettingsActivity extends AppCompatActivity {
                         phone = map.get("phone").toString();
                         mPhoneField.setText(phone);
                     }
+                    if(map.get("sex")!=null){
+                        userSex = map.get("sex").toString();
+                    }
+                    Glide.with(mProfileImage.getContext()).clear(mProfileImage);
                     if(map.get("profileImageUrl")!=null){
                         profileImageUrl = map.get("profileImageUrl").toString();
-                        Glide.with(getApplication()).load(profileImageUrl).into(mProfileImage);
-
+                        switch(profileImageUrl){
+                            case "default":
+                                Glide.with(getApplication()).load(R.mipmap.ic_launcher).into(mProfileImage);
+                                break;
+                            default:
+                                Glide.with(getApplication()).load(profileImageUrl).into(mProfileImage);
+                                break;
+                        }
                     }
                 }
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
+            public void onCancelled(DatabaseError databaseError) {
 
             }
         });
+
     }
 
     private void saveUserInformation() {
@@ -123,15 +140,15 @@ public class SettingsActivity extends AppCompatActivity {
         phone = mPhoneField.getText().toString();
 
         Map userInfo = new HashMap();
-        userInfo.put("name",name);
-        userInfo.put("phone",phone);
-        mCustomerDatabase.updateChildren(userInfo);
-
+        userInfo.put("name", name);
+        userInfo.put("phone", phone);
+        mUserDatabase.updateChildren(userInfo);
         if(resultUri != null){
             StorageReference filepath = FirebaseStorage.getInstance().getReference().child("profileImages").child(userId);
             Bitmap bitmap = null;
+
             try {
-                bitmap = MediaStore.Images.Media.getBitmap(getApplication().getContentResolver(),resultUri);
+                bitmap = MediaStore.Images.Media.getBitmap(getApplication().getContentResolver(), resultUri);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -152,22 +169,22 @@ public class SettingsActivity extends AppCompatActivity {
                     Task<Uri> uri = taskSnapshot.getStorage().getDownloadUrl();
                     while(!uri.isComplete());
                     Uri downloadUrl = uri.getResult();
+
                     Map userInfo = new HashMap();
                     userInfo.put("profileImageUrl",downloadUrl.toString());
-                    mCustomerDatabase.updateChildren(userInfo);
+                    mUserDatabase.updateChildren(userInfo);
+
                     finish();
                     return;
                 }
             });
-        }
-        else {
+        }else{
             finish();
         }
-
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == 1 && resultCode == Activity.RESULT_OK){
             final Uri imageUri = data.getData();
