@@ -1,4 +1,4 @@
-package com.example.playtime;
+package com.example.playtime.Cards;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -10,8 +10,9 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+import com.bumptech.glide.Glide;
+import com.example.playtime.Cards.cards;
+import com.example.playtime.R;
 
 public class arrayAdapter extends ArrayAdapter<cards>{
 
@@ -29,7 +30,19 @@ public class arrayAdapter extends ArrayAdapter<cards>{
 
         TextView name = (TextView) convertView.findViewById(R.id.name);
         ImageView image = (ImageView) convertView.findViewById(R.id.image);
-        image.setImageResource(R.mipmap.ic_launcher);
+
+        name.setText(card_item.getName());
+        switch(card_item.getProfileImageUrl()){
+            case "default":
+                Glide.with(convertView.getContext()).load(R.mipmap.ic_launcher).into(image);
+                break;
+            default:
+                Glide.with(image.getContext()).clear(image);
+                Glide.with(convertView.getContext()).load(card_item.getProfileImageUrl()).into(image);
+                break;
+        }
+
+
         return convertView;
 
     }

@@ -21,17 +21,19 @@ import com.google.firebase.database.FirebaseDatabase;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class RegistrationActivity extends AppCompatActivity {
 
     private Button mRegister;
-    private EditText mEmail, mPassword,mName;
+    private EditText mEmail, mPassword, mName;
 
     private RadioGroup mRadioGroup;
 
-
-
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener firebaseAuthStateListener;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,7 +65,6 @@ public class RegistrationActivity extends AppCompatActivity {
         mRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 int selectId = mRadioGroup.getCheckedRadioButtonId();
 
                 final RadioButton radioButton = (RadioButton) findViewById(selectId);
@@ -80,10 +81,14 @@ public class RegistrationActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(!task.isSuccessful()){
                             Toast.makeText(RegistrationActivity.this, "sign up error", Toast.LENGTH_SHORT).show();
-                        } else {
+                        }else{
                             String userId = mAuth.getCurrentUser().getUid();
-                            DatabaseReference currentUserDb = FirebaseDatabase.getInstance().getReference().child("Users").child(radioButton.getText().toString()).child(userId).child("name");
-                            currentUserDb.setValue(name);
+                            DatabaseReference currentUserDb = FirebaseDatabase.getInstance().getReference().child("Users").child(userId);
+                            Map userInfo = new HashMap<>();
+                            userInfo.put("name", name);
+                            userInfo.put("sex", radioButton.getText().toString());
+                            userInfo.put("profileImageUrl", "default");
+                            currentUserDb.updateChildren(userInfo);
                         }
                     }
                 });
