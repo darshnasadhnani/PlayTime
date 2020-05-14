@@ -4,10 +4,13 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.LinearLayoutManager;
+
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.example.playtime.AESUtils;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -71,11 +74,18 @@ public class ChatActivity extends AppCompatActivity {
         String sendMessageText = mSendEditText.getText().toString();
 
         if(!sendMessageText.isEmpty()){
+            String encrypted_sendMessageText = "";
+            try {
+                encrypted_sendMessageText = AESUtils.encrypt(sendMessageText);
+                Log.d("TEST", "encrypted:" + encrypted_sendMessageText);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             DatabaseReference newMessageDb = mDatabaseChat.push();
 
             Map newMessage = new HashMap();
             newMessage.put("createdByUser", currentUserID);
-            newMessage.put("text", sendMessageText);
+            newMessage.put("text", encrypted_sendMessageText);
 
             newMessageDb.setValue(newMessage);
         }
@@ -107,20 +117,28 @@ public class ChatActivity extends AppCompatActivity {
                 if(dataSnapshot.exists()){
                     String message = null;
                     String createdByUser = null;
+                    String decrypted_message = null;
 
                     if(dataSnapshot.child("text").getValue()!=null){
                         message = dataSnapshot.child("text").getValue().toString();
+
+                        try {
+                            decrypted_message = AESUtils.decrypt(message);
+                            Log.d("TEST", "decrypted:" + decrypted_message);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }
                     if(dataSnapshot.child("createdByUser").getValue()!=null){
                         createdByUser = dataSnapshot.child("createdByUser").getValue().toString();
                     }
 
-                    if(message!=null && createdByUser!=null){
+                    if(decrypted_message!=null && createdByUser!=null){
                         Boolean currentUserBoolean = false;
                         if(createdByUser.equals(currentUserID)){
                             currentUserBoolean = true;
                         }
-                        ChatObject newMessage = new ChatObject(message, currentUserBoolean);
+                        ChatObject newMessage = new ChatObject(decrypted_message, currentUserBoolean);
                         resultsChat.add(newMessage);
                         mChatAdapter.notifyDataSetChanged();
                     }
