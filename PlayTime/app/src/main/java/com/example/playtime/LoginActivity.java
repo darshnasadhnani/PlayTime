@@ -20,6 +20,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private Button mLogin;
     private EditText mEmail, mPassword;
+
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener firebaseAuthStateListener;
     @Override
@@ -63,6 +64,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
+
     @Override
     protected void onStart() {
         super.onStart();
