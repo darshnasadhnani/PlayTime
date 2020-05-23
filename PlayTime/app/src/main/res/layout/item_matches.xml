@@ -1,24 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal"
-    android:padding="20sp">
-    <ImageView
-        android:layout_width="50sp"
-        android:layout_height="50sp"
-        android:src="@mipmap/ic_launcher"
-        android:id="@+id/MatchImage"/>
-    <LinearLayout
-        android:paddingLeft="20sp"
+    android:padding="2sp">
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="100dp"
         android:orientation="vertical"
-        android:layout_gravity="center">
+        android:layout_gravity="center"
+        android:background="@drawable/rounded_chatbox">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_height="match_parent"
+            android:src="@mipmap/ic_launcher"
+            android:id="@+id/MatchImage"
+            />
         <TextView
-            android:paddingBottom="20sp"
+            android:padding="20sp"
+            android:textSize="15sp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="100dp"
+            android:fontFamily="@font/opensansbold"
+            android:textColor="@color/colorPrimaryDark"
             android:text="Match's Name"
             android:id="@+id/MatchName"/>
         <TextView
@@ -26,8 +32,28 @@
             android:layout_height="wrap_content"
             android:text="Match's ID"
             android:layout_gravity="center"
-            android:id="@+id/Matchid"/>
-    </LinearLayout>
+            android:id="@+id/Matchid"
+            android:visibility="invisible"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="290dp"
+            android:layout_marginTop="70dp"
+            android:text="Tap to chat"
+            android:textSize="15sp"
+            android:fontFamily="@font/opensansbold"
+            android:textColor="@color/colorPrimaryDark"
+            android:layout_gravity="center"
+            android:id="@+id/tap"/>
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="380dp"
+            android:layout_marginTop="70dp"
+            android:src="@drawable/ic_arrow_forward"
+            android:textSize="15sp"
+            android:layout_gravity="center" />
+    </RelativeLayout>
 
 
-</LinearLayout>
+</RelativeLayout>

@@ -5,19 +5,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.playtime.Chat.ChatActivity">
+    tools:context="com.example.playtime.Chat.ChatActivity"
+    android:background="#E9E9E9">
+
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/sendLayout">
+        android:layout_above="@+id/sendLayout"
+        android:layout_marginBottom="10dp">
+
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/recyclerView"
-            android:scrollbars="vertical">
-        </androidx.recyclerview.widget.RecyclerView>
+            android:scrollbars="vertical"></androidx.recyclerview.widget.RecyclerView>
     </androidx.core.widget.NestedScrollView>
-    <LinearLayout
+
+    <RelativeLayout
         android:id="@+id/sendLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -25,17 +29,24 @@
         android:orientation="horizontal">
         <EditText
             android:layout_weight="0.8"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
+            android:layout_marginRight="85dp"
             android:layout_height="wrap_content"
-            android:hint="message..."
+            android:hint="Message"
+            android:textSize="20sp"
+            android:padding="10dp"
+            android:background="@drawable/rounded_messagebox"
             android:id="@+id/message"
             />
         <Button
             android:layout_weight="0.2"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
+            android:layout_marginLeft="300dp"
             android:layout_height="wrap_content"
             android:text="Send"
-            android:id="@+id/send"/>
-    </LinearLayout>
+            android:id="@+id/send"
+            android:textColor="#FFFFFF"
+            android:background="@drawable/rounded_button"/>
+    </RelativeLayout>
 
 </RelativeLayout>

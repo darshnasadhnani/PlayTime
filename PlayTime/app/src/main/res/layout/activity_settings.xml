@@ -1,48 +1,105 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".SettingsActivity"
     android:orientation="vertical"
-    android:padding="20sp">
-
+    android:background="#E9E9E9">
     <androidx.appcompat.widget.AppCompatImageView
-        android:layout_width="100sp"
-        android:layout_height="100sp"
+        android:layout_width="200dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="20dp"
+        android:layout_centerHorizontal="true"
         android:id="@+id/profileImage"
-        android:src="@mipmap/ic_launcher"
-        android:layout_marginBottom="20sp"/>
+        android:src="@mipmap/ic_launcher" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Name"
+        android:textColor="#1F766C"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="170dp"
+        android:fontFamily="@font/opensansbold"/>
     <EditText
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginTop="195dp"
         android:id="@+id/name"
-        android:background="@null"
-        android:hint="Name"
-        android:layout_marginBottom="20sp"
+        android:textAlignment="center"
+        android:gravity="center"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/rounded_edittext"
+        android:hint="Johnny Depp"
         />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Phone Number"
+        android:textColor="#1F766C"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="250dp"
+        android:fontFamily="@font/opensansbold" />
     <EditText
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:id="@+id/phone"
-        android:background="@null"
-        android:hint="Phone Number"
-        android:layout_marginBottom="20sp"
+        android:textAlignment="center"
+        android:gravity="center"
+        android:background="@drawable/rounded_edittext"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="270dp"
+        android:hint="53449899"
         android:inputType="phone"
         />
-    <Button
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sports that you play"
+        android:textColor="#1F766C"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="325dp"
+        android:fontFamily="@font/opensansbold"/>
+    <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/sports_played"
+        android:background="@drawable/rounded_edittext"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="345dp"
+        android:padding="15dp"
+        android:hint="Badminton, Tennis, Football, etc."
+        android:inputType="text"
+        />
+    <Button
+        android:layout_width="146dp"
+        android:layout_height="38.5dp"
+        android:layout_marginTop="420dp"
         android:id="@+id/confirm"
-        android:text="Confirm"
+        android:text="Save Profile"
+        android:textAllCaps="false"
+        android:textColor="#FFFFFF"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/rounded_button"
         />
     <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="146dp"
+        android:layout_height="38.5dp"
         android:id="@+id/back"
-        android:text="Back"
+        android:textColor="#FFFFFF"
+        android:layout_marginTop="470dp"
+        android:text="Your Gallery"
+        android:textAllCaps="false"
+        android:background="@drawable/rounded_button"
+        android:layout_centerHorizontal="true"
         />
 
-
-</LinearLayout>
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:itemIconTint="@drawable/selector"
+        app:menu="@menu/navigation"
+        android:layout_alignParentBottom="true"/>
+</RelativeLayout>
