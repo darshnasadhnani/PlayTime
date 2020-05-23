@@ -1,10 +1,12 @@
 package com.example.playtime;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -12,6 +14,7 @@ import android.widget.Toast;
 import com.example.playtime.Cards.arrayAdapter;
 import com.example.playtime.Cards.cards;
 import com.example.playtime.Matches.MatchesActivity;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
@@ -43,7 +46,27 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
+        bottomNavigationView.setSelectedItemId(R.id.home);
 
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                switch(menuItem.getItemId()){
+                    case R.id.connections:
+                        startActivity(new Intent(getApplicationContext(),MatchesActivity.class));
+                        overridePendingTransition(0,0);
+                        return true;
+                    case R.id.home:
+                        return true;
+                    case R.id.profile:
+                        startActivity(new Intent(getApplicationContext(),SettingsActivity.class));
+                        overridePendingTransition(0,0);
+                        return true;
+                }
+                return false;
+            }
+        });
         usersDb = FirebaseDatabase.getInstance().getReference().child("Users");
 
         mAuth = FirebaseAuth.getInstance();
@@ -164,11 +187,15 @@ public class MainActivity extends AppCompatActivity {
                 if (dataSnapshot.child("UserType").getValue() != null) {
                     if (dataSnapshot.exists() && !dataSnapshot.child("connections").child("nope").hasChild(currentUId) && !dataSnapshot.child("connections").child("yeps").hasChild(currentUId) && dataSnapshot.child("UserType").getValue().toString().equals(oppositeUserType)) {
                         String profileImageUrl = "default";
+                        String sportsPlayed = "Sports Played: unavailable";
                         if (!dataSnapshot.child("profileImageUrl").getValue().equals("default")) {
                             profileImageUrl = dataSnapshot.child("profileImageUrl").getValue().toString();
                         }
-                        cards item = new cards(dataSnapshot.getKey(), dataSnapshot.child("name").getValue().toString(), profileImageUrl);
-                        rowItems.add(item);
+                        if(dataSnapshot.child("sports").getValue()!=null)
+                            sportsPlayed=dataSnapshot.child("sports").getValue().toString();
+                        cards item = new cards(dataSnapshot.getKey(), dataSnapshot.child("name").getValue().toString(), profileImageUrl,sportsPlayed,dataSnapshot.child("UserType").getValue().toString());
+                        if(item.getUserId()!=currentUId)
+                            rowItems.add(item);
                         arrayAdapter.notifyDataSetChanged();
                     }
                 }
@@ -195,10 +222,13 @@ public class MainActivity extends AppCompatActivity {
                 if (dataSnapshot.child("UserType").getValue() != null) {
                     if (dataSnapshot.exists() && !dataSnapshot.child("connections").child("nope").hasChild(currentUId) && !dataSnapshot.child("connections").child("yeps").hasChild(currentUId) && dataSnapshot.child("UserType").getValue().toString().equals("Player")) {
                         String profileImageUrl = "default";
+                        String sportsPlayed = "Sports played: Unavailable";
                         if (!dataSnapshot.child("profileImageUrl").getValue().equals("default")) {
                             profileImageUrl = dataSnapshot.child("profileImageUrl").getValue().toString();
                         }
-                        cards item = new cards(dataSnapshot.getKey(), dataSnapshot.child("name").getValue().toString(), profileImageUrl);
+                        if(dataSnapshot.child("sports").getValue()!=null)
+                            sportsPlayed=dataSnapshot.child("sports").getValue().toString();
+                        cards item = new cards(dataSnapshot.getKey(), dataSnapshot.child("name").getValue().toString(), profileImageUrl,sportsPlayed,dataSnapshot.child("UserType").getValue().toString());
                         if(item.getUserId()!=currentUId)
                             rowItems.add(item);
                         arrayAdapter.notifyDataSetChanged();
@@ -231,12 +261,6 @@ public class MainActivity extends AppCompatActivity {
 
     public void goToSettings(View view) {
         Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
-        startActivity(intent);
-        return;
-    }
-
-    public void goToMatches(View view) {
-        Intent intent = new Intent(MainActivity.this, MatchesActivity.class);
         startActivity(intent);
         return;
     }

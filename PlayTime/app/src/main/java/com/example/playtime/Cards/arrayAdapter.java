@@ -14,6 +14,8 @@ import com.bumptech.glide.Glide;
 import com.example.playtime.Cards.cards;
 import com.example.playtime.R;
 
+import org.w3c.dom.Text;
+
 public class arrayAdapter extends ArrayAdapter<cards>{
 
     Context context;
@@ -29,9 +31,15 @@ public class arrayAdapter extends ArrayAdapter<cards>{
         }
 
         TextView name = (TextView) convertView.findViewById(R.id.name);
+        TextView sportsPlayed = (TextView) convertView.findViewById(R.id.sports);
+        TextView accountType = (TextView) convertView.findViewById(R.id.accountType);
         ImageView image = (ImageView) convertView.findViewById(R.id.image);
-
+        String sports= "Sports Played: unavailable";
+        if(card_item.getSportsPlayed()!=null)
+            sports = card_item.getSportsPlayed();
         name.setText(card_item.getName());
+        sportsPlayed.setText(sports);
+        accountType.setText(card_item.getAccountType());
         switch(card_item.getProfileImageUrl()){
             case "default":
                 Glide.with(convertView.getContext()).load(R.mipmap.ic_launcher).into(image);

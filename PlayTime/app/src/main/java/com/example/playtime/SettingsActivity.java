@@ -11,15 +11,18 @@ import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.example.playtime.Matches.MatchesActivity;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -38,7 +41,7 @@ import java.util.Map;
 
 public class SettingsActivity extends AppCompatActivity {
 
-    private EditText mNameField, mPhoneField;
+    private EditText mNameField, mPhoneField, mSportField;
 
     private Button mBack, mConfirm;
 
@@ -47,7 +50,7 @@ public class SettingsActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private DatabaseReference mUserDatabase;
 
-    private String userId, name, phone, profileImageUrl, userType;
+    private String userId, name, phone, profileImageUrl, userType, sports;
 
     private Uri resultUri;
 
@@ -55,9 +58,31 @@ public class SettingsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
+        bottomNavigationView.setSelectedItemId(R.id.profile);
+
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                switch(menuItem.getItemId()){
+                    case R.id.connections:
+                        startActivity(new Intent(getApplicationContext(), MatchesActivity.class));
+                        overridePendingTransition(0,0);
+                        return true;
+                    case R.id.home:
+                        startActivity(new Intent(getApplicationContext(),MainActivity.class));
+                        overridePendingTransition(0,0);
+                        return true;
+                    case R.id.profile:
+                        return true;
+                }
+                return false;
+            }
+        });
 
         mNameField = (EditText) findViewById(R.id.name);
         mPhoneField = (EditText) findViewById(R.id.phone);
+        mSportField = (EditText) findViewById(R.id.sports_played);
 
         mProfileImage = (ImageView) findViewById(R.id.profileImage);
 
@@ -109,6 +134,10 @@ public class SettingsActivity extends AppCompatActivity {
                         phone = map.get("phone").toString();
                         mPhoneField.setText(phone);
                     }
+                    if(map.get("sports")!=null){
+                        sports = map.get("sports").toString();
+                        mSportField.setText(sports);
+                    }
                     if(map.get("UserType")!=null){
                         userType = map.get("UserType").toString();
                     }
@@ -138,10 +167,12 @@ public class SettingsActivity extends AppCompatActivity {
     private void saveUserInformation() {
         name = mNameField.getText().toString();
         phone = mPhoneField.getText().toString();
+        sports = mSportField.getText().toString();
 
         Map userInfo = new HashMap();
         userInfo.put("name", name);
         userInfo.put("phone", phone);
+        userInfo.put("sports",sports);
         mUserDatabase.updateChildren(userInfo);
         if(resultUri != null){
             StorageReference filepath = FirebaseStorage.getInstance().getReference().child("profileImages").child(userId);

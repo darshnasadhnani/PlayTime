@@ -4,10 +4,14 @@ public class cards {
     private String userId;
     private String name;
     private String profileImageUrl;
-    public cards (String userId, String name, String profileImageUrl){
+    private String sportsPlayed;
+    private String accountType;
+    public cards (String userId, String name, String profileImageUrl,String sportsPlayed, String accountType){
         this.userId = userId;
         this.name = name;
         this.profileImageUrl = profileImageUrl;
+        this.sportsPlayed=sportsPlayed;
+        this.accountType=accountType;
     }
 
     public String getUserId(){
@@ -29,5 +33,11 @@ public class cards {
     }
     public void setProfileImageUrl(String profileImageUrl){
         this.profileImageUrl = profileImageUrl;
+    }
+    public String getSportsPlayed(){
+        return sportsPlayed;
+    }
+    public String getAccountType(){
+        return accountType;
     }
 }
