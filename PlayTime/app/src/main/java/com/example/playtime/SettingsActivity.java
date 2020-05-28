@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.playtime.Matches.MatchesActivity;
@@ -146,7 +147,7 @@ public class SettingsActivity extends AppCompatActivity {
                         profileImageUrl = map.get("profileImageUrl").toString();
                         switch(profileImageUrl){
                             case "default":
-                                Glide.with(getApplication()).load(R.mipmap.ic_launcher).into(mProfileImage);
+                                Glide.with(getApplication()).load(R.drawable.androidicon).into(mProfileImage);
                                 break;
                             default:
                                 Glide.with(getApplication()).load(profileImageUrl).into(mProfileImage);
@@ -205,12 +206,12 @@ public class SettingsActivity extends AppCompatActivity {
                     userInfo.put("profileImageUrl",downloadUrl.toString());
                     mUserDatabase.updateChildren(userInfo);
 
-                    finish();
+                    Toast.makeText(SettingsActivity.this, "Changes Saved", Toast.LENGTH_SHORT).show();
                     return;
                 }
             });
         }else{
-            finish();
+            Toast.makeText(SettingsActivity.this, "Changes Saved", Toast.LENGTH_SHORT).show();
         }
     }
 

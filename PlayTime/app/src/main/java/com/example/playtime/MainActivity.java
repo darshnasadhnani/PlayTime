@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.playtime.Cards.arrayAdapter;
@@ -45,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+       // final TextView emptytext = (TextView)findViewById(R.id.empty_text);
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setSelectedItemId(R.id.home);
@@ -77,7 +79,6 @@ public class MainActivity extends AppCompatActivity {
         rowItems = new ArrayList<cards>();
 
         arrayAdapter = new arrayAdapter(this, R.layout.item, rowItems );
-
         SwipeFlingAdapterView flingContainer = (SwipeFlingAdapterView) findViewById(R.id.frame);
 
         flingContainer.setAdapter(arrayAdapter);
@@ -109,13 +110,18 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onAdapterAboutToEmpty(int itemsInAdapter) {
+//                cards item = new cards("1234", "No More Users To Show", "default","Sorry","None");
+//                if(arrayAdapter.isEmpty()) {
+//                    rowItems.add(item);
+//                    arrayAdapter.notifyDataSetChanged();
+//                }
             }
 
             @Override
             public void onScroll(float scrollProgressPercent) {
             }
         });
-
+        //flingContainer.setEmptyView(emptytext);
 
         // Optionally add an OnItemClickListener
         flingContainer.setOnItemClickListener(new SwipeFlingAdapterView.OnItemClickListener() {
@@ -179,7 +185,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
+    //String profile_pic_default="https://firebasestorage.googleapis.com/v0/b/playtime-294d2.appspot.com/o/profileImages%2F3PwW3T8JDXXlPPvdbddxVKMPcNj2?alt=media&token=76e9d67e-3a05-49ff-a3df-72884cd8dc43";
     public void getOppositeTypeUsers(){
         usersDb.addChildEventListener(new ChildEventListener() {
             @Override
@@ -220,7 +226,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 if (dataSnapshot.child("UserType").getValue() != null) {
-                    if (dataSnapshot.exists() && !dataSnapshot.child("connections").child("nope").hasChild(currentUId) && !dataSnapshot.child("connections").child("yeps").hasChild(currentUId) && dataSnapshot.child("UserType").getValue().toString().equals("Player")) {
+                    if (dataSnapshot.exists() && !dataSnapshot.child("connections").child("nope").hasChild(currentUId) && !dataSnapshot.child("connections").child("yeps").hasChild(currentUId) && dataSnapshot.child("UserType").getValue().toString().equals("Player") && !dataSnapshot.getKey().equals(currentUId)) {
                         String profileImageUrl = "default";
                         String sportsPlayed = "Sports played: Unavailable";
                         if (!dataSnapshot.child("profileImageUrl").getValue().equals("default")) {
@@ -229,8 +235,7 @@ public class MainActivity extends AppCompatActivity {
                         if(dataSnapshot.child("sports").getValue()!=null)
                             sportsPlayed=dataSnapshot.child("sports").getValue().toString();
                         cards item = new cards(dataSnapshot.getKey(), dataSnapshot.child("name").getValue().toString(), profileImageUrl,sportsPlayed,dataSnapshot.child("UserType").getValue().toString());
-                        if(item.getUserId()!=currentUId)
-                            rowItems.add(item);
+                        rowItems.add(item);
                         arrayAdapter.notifyDataSetChanged();
                     }
                 }

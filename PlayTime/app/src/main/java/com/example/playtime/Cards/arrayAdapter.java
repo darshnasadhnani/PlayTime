@@ -42,7 +42,7 @@ public class arrayAdapter extends ArrayAdapter<cards>{
         accountType.setText(card_item.getAccountType());
         switch(card_item.getProfileImageUrl()){
             case "default":
-                Glide.with(convertView.getContext()).load(R.mipmap.ic_launcher).into(image);
+                Glide.with(convertView.getContext()).load(R.drawable.androidicon).into(image);
                 break;
             default:
                 Glide.with(image.getContext()).clear(image);
