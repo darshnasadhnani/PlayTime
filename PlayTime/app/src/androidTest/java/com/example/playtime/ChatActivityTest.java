@@ -18,6 +18,7 @@ import androidx.test.rule.ActivityTestRule;
 import androidx.test.runner.AndroidJUnit4;
 
 import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.Espresso.pressBack;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.replaceText;
@@ -31,13 +32,13 @@ import static org.hamcrest.Matchers.is;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class RegisterAcivityTest {
+public class ChatActivityTest {
 
     @Rule
     public ActivityTestRule<LoginOrRegistrationActivity> mActivityTestRule = new ActivityTestRule<>(LoginOrRegistrationActivity.class);
 
     @Test
-    public void registerAcivityTest() {
+    public void chatActivityTest() {
         // Added a sleep statement to match the app's execution delay.
         // The recommended way to handle such scenarios is to use Espresso idling resources:
         // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
@@ -48,12 +49,12 @@ public class RegisterAcivityTest {
         }
 
         ViewInteraction appCompatButton = onView(
-                allOf(withId(R.id.register), withText("Register"),
+                allOf(withId(R.id.login), withText("Login"),
                         childAtPosition(
                                 childAtPosition(
                                         withId(android.R.id.content),
                                         0),
-                                4),
+                                3),
                         isDisplayed()));
         appCompatButton.perform(click());
 
@@ -67,14 +68,14 @@ public class RegisterAcivityTest {
         }
 
         ViewInteraction appCompatEditText = onView(
-                allOf(withId(R.id.name),
+                allOf(withId(R.id.email),
                         childAtPosition(
                                 childAtPosition(
                                         withId(android.R.id.content),
                                         0),
                                 5),
                         isDisplayed()));
-        appCompatEditText.perform(replaceText("TestingAcc"), closeSoftKeyboard());
+        appCompatEditText.perform(click());
 
         ViewInteraction appCompatEditText2 = onView(
                 allOf(withId(R.id.email),
@@ -82,38 +83,37 @@ public class RegisterAcivityTest {
                                 childAtPosition(
                                         withId(android.R.id.content),
                                         0),
-                                8),
+                                5),
                         isDisplayed()));
-        appCompatEditText2.perform(replaceText("testingaccount@gmail.com"), closeSoftKeyboard());
-
-        ViewInteraction appCompatRadioButton = onView(
-                allOf(withText("Coach"),
-                        childAtPosition(
-                                allOf(withId(R.id.radiogroup),
-                                        childAtPosition(
-                                                withClassName(is("android.widget.FrameLayout")),
-                                                11)),
-                                1),
-                        isDisplayed()));
-        appCompatRadioButton.perform(click());
+        appCompatEditText2.perform(click());
 
         ViewInteraction appCompatEditText3 = onView(
+                allOf(withId(R.id.email),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(android.R.id.content),
+                                        0),
+                                5),
+                        isDisplayed()));
+        appCompatEditText3.perform(replaceText("kishore@gmail.com"), closeSoftKeyboard());
+
+        ViewInteraction appCompatEditText4 = onView(
                 allOf(withId(R.id.password),
                         childAtPosition(
                                 childAtPosition(
                                         withId(android.R.id.content),
                                         0),
-                                14),
+                                8),
                         isDisplayed()));
-        appCompatEditText3.perform(replaceText("123456"), closeSoftKeyboard());
+        appCompatEditText4.perform(replaceText("123456"), closeSoftKeyboard());
 
         ViewInteraction appCompatButton2 = onView(
-                allOf(withId(R.id.register), withText("Register"),
+                allOf(withId(R.id.login), withText("Login"),
                         childAtPosition(
                                 childAtPosition(
                                         withId(android.R.id.content),
                                         0),
-                                15),
+                                9),
                         isDisplayed()));
         appCompatButton2.perform(click());
 
@@ -125,37 +125,6 @@ public class RegisterAcivityTest {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
-        ViewInteraction appCompatEditText4 = onView(
-                allOf(withId(R.id.phone),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(android.R.id.content),
-                                        0),
-                                4),
-                        isDisplayed()));
-        appCompatEditText4.perform(replaceText("53449899"), closeSoftKeyboard());
-
-        ViewInteraction appCompatEditText5 = onView(
-                allOf(withId(R.id.sports_played),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(android.R.id.content),
-                                        0),
-                                6),
-                        isDisplayed()));
-        appCompatEditText5.perform(replaceText("Tennis"), closeSoftKeyboard());
-
-        ViewInteraction appCompatButton3 = onView(
-                allOf(withId(R.id.confirm), withText("Save Profile"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(android.R.id.content),
-                                        0),
-                                7),
-                        isDisplayed()));
-        appCompatButton3.perform(click());
-
 
         ViewInteraction bottomNavigationItemView = onView(
                 allOf(withId(R.id.connections), withContentDescription("Connections"),
@@ -176,7 +145,78 @@ public class RegisterAcivityTest {
             e.printStackTrace();
         }
 
+        ViewInteraction relativeLayout = onView(
+                allOf(childAtPosition(
+                        allOf(withId(R.id.recyclerView),
+                                childAtPosition(
+                                        withClassName(is("androidx.core.widget.NestedScrollView")),
+                                        0)),
+                        1),
+                        isDisplayed()));
+        relativeLayout.perform(click());
+
+        // Added a sleep statement to match the app's execution delay.
+        // The recommended way to handle such scenarios is to use Espresso idling resources:
+        // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
+        try {
+            Thread.sleep(7000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        ViewInteraction appCompatEditText5 = onView(
+                allOf(withId(R.id.message),
+                        childAtPosition(
+                                allOf(withId(R.id.sendLayout),
+                                        childAtPosition(
+                                                withClassName(is("android.widget.RelativeLayout")),
+                                                1)),
+                                0),
+                        isDisplayed()));
+        appCompatEditText5.perform(replaceText("hi how are u"), closeSoftKeyboard());
+
+        ViewInteraction appCompatButton3 = onView(
+                allOf(withId(R.id.send), withText("Send"),
+                        childAtPosition(
+                                allOf(withId(R.id.sendLayout),
+                                        childAtPosition(
+                                                withClassName(is("android.widget.RelativeLayout")),
+                                                1)),
+                                1),
+                        isDisplayed()));
+        appCompatButton3.perform(click());
+
+        pressBack();
+
+        // Added a sleep statement to match the app's execution delay.
+        // The recommended way to handle such scenarios is to use Espresso idling resources:
+        // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
+        try {
+            Thread.sleep(7000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         ViewInteraction bottomNavigationItemView2 = onView(
+                allOf(withId(R.id.profile), withContentDescription("Profile"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(R.id.bottom_navigation),
+                                        0),
+                                2),
+                        isDisplayed()));
+        bottomNavigationItemView2.perform(click());
+
+        // Added a sleep statement to match the app's execution delay.
+        // The recommended way to handle such scenarios is to use Espresso idling resources:
+        // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
+        try {
+            Thread.sleep(7000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        ViewInteraction bottomNavigationItemView3 = onView(
                 allOf(withId(R.id.home), withContentDescription("Home"),
                         childAtPosition(
                                 childAtPosition(
@@ -184,7 +224,7 @@ public class RegisterAcivityTest {
                                         0),
                                 0),
                         isDisplayed()));
-        bottomNavigationItemView2.perform(click());
+        bottomNavigationItemView3.perform(click());
 
         // Added a sleep statement to match the app's execution delay.
         // The recommended way to handle such scenarios is to use Espresso idling resources:
